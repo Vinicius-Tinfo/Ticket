@@ -1,0 +1,56 @@
+
+
+	 <div th:replace="componentes/topo"></div>
+
+
+<!-- So mudar aqui dentro do container -->
+      <div class="container-fluid">
+ 
+          <div class="col-lg-8">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Ticket List 📑</h5>
+              <div class="table-responsive">
+                <table class="table text-nowrap align-middle mb-0">
+                  <thead>
+                    <tr class="border-2 border-bottom border-primary border-0"> 
+                      <th scope="col" class="ps-0">ID</th>
+                      <th scope="col" class="text-center" >Titulo</th>
+                      <th scope="col" class="text-center">Telefone</th>
+					  <th scope="col" class="text-center">Situação</th>
+                      <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    <tr th:each="ticket : ${ticket}" >
+                      <td scope="row" class="ps-0 fw-medium" th:text="${ticket.id}"></td>
+                      <td class="text-center fw-medium" th:text="${ticket.nome}"></td>
+                      <td class="text-center fw-medium" th:text="${ticket.telefone}"></td>
+                      <td class="text-center fw-medium">
+						  <button th:if="${ticket.situacao}"  type="button" id="concluido" class="btn btn-success" style="pointer-events: none;">Concluído</button>
+ 						  <button th:if="${!ticket.situacao}" type="button" id="concluido" class="btn btn-danger" style="pointer-events: none;">Aguardando</button>
+					  </td>
+                    
+                   <td class="text-center fw-medium" >
+                    <button  class="btn btn-warning"><a style="text-decoration: none;color: aliceblue;" th:href="@{/visualizar-{id}(id=${ticket.id})}">Visualizar</a></button> 
+                   </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+       
+        
+        
+        
+        
+      </div>
+      
+      
+      <!-- fim do container fluir -->
+      	 <div th:replace="componentes/inferior"></div>
+
+   

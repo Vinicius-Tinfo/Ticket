@@ -1,0 +1,66 @@
+
+
+	 <div th:replace="componentes/topo"></div>
+
+
+<!-- So mudar aqui dentro do container -->
+      <div class="container-fluid">
+ 
+          <div class="col-lg-8">
+          <div class="card">
+		<div th:if="${mensagem != null}" id="mensagem" class="alert alert-success" role="alert">
+                <p th:text="${mensagem}"></p>
+                <script> setInterval(function removerItem (){document.getElementById("mensagem").remove()},5000);</script>
+            </div>
+
+            <div class="card-body">
+              <h5 class="card-title">Lista de Usuários</h5>
+               <div class="mb-3">
+      			  <a th:href="@{/cadastrar-usuario}" class="btn btn-primary">
+		            <i class="bi bi-person-plus"></i> Adicionar Novo Usuário
+      			  </a>
+   		       </div>
+              <div class="table-responsive">
+                <table class="table text-nowrap align-middle mb-0">
+                  <thead>
+                    <tr class="border-2 border-bottom border-primary border-0"> 
+                      <th scope="col" class="ps-0">ID</th>
+                      <th scope="col" class="text-center" >Nome</th>
+                      <th scope="col" class="text-center">Cpf</th>
+					  <th scope="col" class="text-center">Permissão</th>
+                      <th scope="col" class="text-center">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    <tr th:each="usuarios : ${usuarios}" >
+                      <td scope="row" class="ps-0 fw-medium" th:text="${usuarios.id_usuario}"></td>
+                      <td class="text-center fw-medium" th:text="${usuarios.nome}"></td>
+					  <td class="text-center fw-medium" th:text="${usuarios.cpf}"></td>			
+			         <td class="text-center fw-medium" >
+                        <!-- Itera sobre a lista de permissões do usuário -->
+                        <span th:each="permissao : ${usuarios.permissoes}" th:text="${permissao.nome}"></span>
+                  <!--  <span th:if="${#lists.isEmpty(usuarios.permissoes)}">Nenhuma permissão atribuída</span> -->
+            		</td>
+       				  <td class="text-center fw-medium" >
+                    <button  class="btn btn-warning"><a style="text-decoration: none;color: aliceblue;" th:href="@{#}">Visualizar</a></button> 
+                  	 </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+       
+        
+        
+        
+        
+      </div>
+      
+      
+      <!-- fim do container fluir -->
+      	 <div th:replace="componentes/inferior"></div>
+
+   

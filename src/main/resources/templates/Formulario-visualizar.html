@@ -1,0 +1,95 @@
+
+
+	 <div th:replace="componentes/topo"></div>
+<style>
+	#resolucao2,#descricao{
+		pointer-events: none;
+	}
+</style>
+
+<!-- So mudar aqui dentro do container -->
+      <div class="container-fluid ">
+        <div class="card "  style="position: relative; top: 50%; transform: translate(0,70px);"><!--caso queira colocar menor so usar "w-50 p-3" em class-->
+          <div class="card-body shadow-sm " >
+            <h5 class="card-title fw-semibold mb-4">Formulario</h5>
+            <div class="card">
+              <div class="card-body">
+                 <form method="post" th:action="@{${ticket.id} + '/atualizar'}" style="margin: 10px"onsubmit="return confirm ('Confirma a ação ?')">
+					 <div class="row">
+                  <div class="col">
+                    <label  class="form-label">Titulo</label>
+                    <input type="text" id="titulo" name="titulo" th:value="${ticket?.titulo}" class="form-control"aria-describedby="emailHelp" readonly style="pointer-events: none;" >
+                  </div>
+					 </div>
+					 <br>
+                  <div class="row">
+                    <div class="col">
+                      <label  class="form-label">Nome</label>
+                      <input type="text"  id="nome" name="nome" class="form-control"  th:value="${ticket?.nome}"  placeholder="Nome" readonly style="pointer-events: none;" >
+                    </div>
+                    <div class="col">
+                      <label  class="form-label">Telefone</label>
+                      <input type="text" id="telefone" name="telefone" class="form-control"  th:value="${ticket?.telefone}" placeholder="(xx) xxxxx-xxxx" readonly style="pointer-events: none;" >
+                    </div>
+                    <div class="col">
+                      <label  class="form-label">Email</label>
+                      <input type="email" id="email" name="email" class="form-control"  th:value="${ticket?.email}" placeholder="Digite seu Email para contato" readonly style="pointer-events: none;" >
+                    </div>
+                    <div class="col">
+                      <label  class="form-label">data de Criação</label>
+                      <input type="datetime-local" id="data_criacao" name="data_criacao" class="form-control"   th:value="${ticket.data_criacao}" readonly style="pointer-events: none;" >
+                    </div>
+                  </div>
+                  <br>
+                   <div class="row">
+                  <div class="col">
+                    <label for="exampleFormControlTextarea1">Demanda</label>
+                    <textarea class="form-control" id="descricao" name="descricao"  rows="3" style="resize: none;"   readonly  th:inline="text">[[${ticket?.descricao}]]</textarea>
+                  </div>
+                   </div>
+                   <hr>
+                   
+                   	<div class="row"  th:if="${ticket.resolucao != null}"  >
+                  <div class="col">
+                    <label for="exampleFormControlTextarea1">Resolução</label>
+                    <textarea class="form-control" id="resolucao2" name="resolucao"  rows="3" style="resize: none;"  readonly   th:inline="text">[[${ticket?.resolucao}]]</textarea>
+                  </div>
+                </div>
+                   
+                   
+                   <div class="row"  th:unless="${ticket.resolucao != null}"  >
+                  <div class="col">
+                    <label for="exampleFormControlTextarea1">Resolução</label>
+                    <textarea class="form-control" id="resolucao" name="resolucao"  rows="3" style="resize: none;"  ></textarea>
+                  </div>
+                </div>
+                   
+                 
+                 <div class="d-flex justify-content-end">
+                  <button  th:if="${ticket.situacao == false}" type="submit" class="btn btn-primary m-2 justify-content-end ">Enviar</button>
+                                 
+
+                
+                 </div>
+                   
+      			 
+      
+				
+ <i class="bi bi-arrow-left-circle-fill"></i> 
+                </form>
+             <button  th:if="${ticket.situacao == true}"  class="btn btn-primary m-2 justify-content-end" >    <a  th:href="@{/listarTickets}" style="text-decoration: none;color: aliceblue;"   >voltar</a></button>
+	         <button  th:if="${userLogado.permissao == '1'}" class="btn btn-danger   "><a style="text-decoration: none;color: aliceblue;" th:href="@{/deleteTicket-{id}(id=${ticket.id})}"  onclick="confirm('Você tem certeza que deseja deletar ?')"  >Deletar</a></button>          
+ 
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="fixed-bottom py-6 px-6 text-center">
+          <p class="mb-0 fs-4">All rights reserved &copy;</p>
+        </div>
+      </div>
+      
+      
+      <!-- fim do container fluir -->
+      	 <div th:replace="componentes/inferior"></div>

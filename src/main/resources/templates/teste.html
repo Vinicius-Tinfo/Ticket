@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bem-vindo</title>
+</head>
+<body>
+    <div>
+        <h1>Bem-vindo!</h1>
+        <p>
+            Nome: <span th:text="${userLogado.nome}"></span><br>
+            CPF: <span th:text="${userLogado.cpf}"></span>
+        </p>
+    </div>
+</body>
+</html>
