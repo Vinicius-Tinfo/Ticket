@@ -60,8 +60,6 @@ public class TicketController {
 		
 		
 	    List<TicketModel> tickets = ticketRepository.findAll(Sort.by(Sort.Order.asc("situacao")));
-		
-	    
 		ticket.addAttribute("ticket",tickets);
 	    
 //		ticket.addAttribute("ticket", ticketRepository.findAll());
