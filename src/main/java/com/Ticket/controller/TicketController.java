@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +57,14 @@ public class TicketController {
 	
 	@GetMapping("/listarTickets")
 	public String listarTickets(Model ticket) {
-		ticket.addAttribute("ticket", ticketRepository.findAll());
+		
+		
+	    List<TicketModel> tickets = ticketRepository.findAll(Sort.by(Sort.Order.asc("situacao")));
+		
+	    
+		ticket.addAttribute("ticket",tickets);
+	    
+//		ticket.addAttribute("ticket", ticketRepository.findAll());
 		return "/listar-tickets";
 	}
 	
