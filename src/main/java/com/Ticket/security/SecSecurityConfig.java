@@ -29,7 +29,7 @@ public class SecSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 
 	    http.authorizeHttpRequests(
-	            auth -> auth.requestMatchers("/signin", "/signup").permitAll()
+	            auth -> auth.requestMatchers("/signin", "/signup","/login").permitAll()
 	            .requestMatchers("/").permitAll()
 	            .requestMatchers("/teste").hasAnyAuthority("administrador")		 
 	            .requestMatchers("/listarTickets","/logar","/cadastrar-usuario","/listarUsuarios").hasAnyAuthority("administrador")		         
@@ -42,6 +42,8 @@ public class SecSecurityConfig {
 	           )
 	            .formLogin(formLogin -> formLogin	            		
 	                    .defaultSuccessUrl("/listarTickets", true)
+	                    .loginPage("/login")
+	                    .failureUrl("/login?error=true")
 	                    .permitAll()
 	            )	 
 	    // .rememberMe(rememberMe -> rememberMe.key("AbcdEfghIjkl..."))

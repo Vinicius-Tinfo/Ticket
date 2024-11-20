@@ -45,6 +45,13 @@ public class TicketController {
 	return "Formulario";
 	}
 	
+	 @GetMapping("/login")
+	    public String LoginPage() {
+	        return "login";  
+	    }
+	
+	
+	
 	@PostMapping({"/Formulario/save"})
 	public ModelAndView TicketSave(TicketModel ticket , RedirectAttributes redirectAttributes) {
 	ModelAndView mv = new ModelAndView("redirect:/");
@@ -107,7 +114,7 @@ public class TicketController {
 	
 	@GetMapping({"/logar"})
 	public String TelaDeLogin() {
-	return "logar";
+	return "redirect:/listarTickets";
 	}
 	
 
