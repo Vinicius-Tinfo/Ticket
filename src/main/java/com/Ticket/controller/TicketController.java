@@ -45,10 +45,10 @@ public class TicketController {
 	return "Formulario";
 	}
 	
-	 @GetMapping("/login")
-	    public String LoginPage() {
-	        return "login";  
-	    }
+	@GetMapping("/login")
+	public String LoginPage() {
+	return "login";  
+	}
 	
 	
 	
