@@ -73,6 +73,14 @@ public class TicketController {
 		return "/listar-tickets";
 	}
 	
+	/// mudar para metodo post futuramente com cofirmação//
+	
+	 @GetMapping("/deleteTicket-{id}")
+		public String Deletar(@PathVariable("id") int id ) {
+		ticketRepository.deleteById(id);
+		return"redirect:/listarTickets";
+		}
+	
 		
 	@GetMapping({"/cadastrar-usuario"})
 	public String cadastrarUsuario(Model model ) {
@@ -112,6 +120,13 @@ public class TicketController {
 	        return "/listar-usuarios"; 
 	    }
 	
+	 
+
+	 
+	 
+	 
+	 
+	 
 	@GetMapping({"/logar"})
 	public String TelaDeLogin() {
 	return "redirect:/listarTickets";

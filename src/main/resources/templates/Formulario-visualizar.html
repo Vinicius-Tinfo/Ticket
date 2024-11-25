@@ -75,7 +75,7 @@
       			 
       
 				
- <i class="bi bi-arrow-left-circle-fill"></i> 
+
                 </form>
              <button  th:if="${ticket.situacao == true}"  class="btn btn-primary m-2 justify-content-end" >    <a  th:href="@{/listarTickets}" style="text-decoration: none;color: aliceblue;"   >voltar</a></button>
 	         <button  th:if="${userLogado.permissao == '1'}" class="btn btn-danger   "><a style="text-decoration: none;color: aliceblue;" th:href="@{/deleteTicket-{id}(id=${ticket.id})}"  onclick="confirm('Você tem certeza que deseja deletar ?')"  >Deletar</a></button>          
