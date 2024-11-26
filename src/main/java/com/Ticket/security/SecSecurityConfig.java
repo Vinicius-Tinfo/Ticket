@@ -32,9 +32,9 @@ public class SecSecurityConfig {
 	            auth -> auth.requestMatchers("/signin", "/signup","/login").permitAll()
 	            .requestMatchers("/").permitAll()
 	            .requestMatchers("/teste").hasAnyAuthority("administrador")		 
-	            .requestMatchers("/listarTickets","/logar","/cadastrar-usuario","/listarUsuarios").hasAnyAuthority("administrador")		         
+	            .requestMatchers("/logar","/cadastrar-usuario","/listarUsuarios").hasAnyAuthority("administrador")		         
 	            .requestMatchers("/admin/**").hasAnyAuthority("administrador")
-	            .requestMatchers("/Formulario").hasAnyAuthority("administrador","usuario")
+	            .requestMatchers("/Formulario","/listarTickets").hasAnyAuthority("administrador","usuario")
 	            .requestMatchers("/assets/**").permitAll()
 	            .requestMatchers("/Formulario/save").permitAll()
 	
