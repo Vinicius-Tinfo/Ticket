@@ -30,6 +30,23 @@
                 
                 <p class="text-center">Bem-vindo ao Ticket Management</p>
                 <form th:action="@{/login}" method="post"  >
+					<!--div th:if="${param.error}" class="alert alert-danger">
+            <p th:switch="${param.error}"   >  forma de tratar erro de login mais detalhada
+                 <span th:case="'bad_credentials'">Credenciais inválidas. Tente novamente.</span>
+                <span th:case="'disabled'">Sua conta foi desativada. Por favor, entre em contato com o suporte.</span>
+                <span th:case="'locked'">Sua conta está bloqueada. Entre em contato com o suporte.</span>
+                <span th:case="'expired'">Sua conta expirou. Por favor, entre em contato com o suporte.</span>
+                <span th:case="*">Erro desconhecido. Tente novamente.</span>
+            </p>
+        </div-->
+<div th:if="${param.error}" class="alert alert-danger">
+    <p th:switch="${param.error}">
+        <span th:case="'true'">Erro de login. Verifique suas credenciais e tente novamente.</span> 
+        <span th:case="*">Erro desconhecido. Tente novamente.</span>
+    </p>
+</div>
+					
+					
                   <div class="mb-3">
                     <label for="cpf" class="form-label"  >CPF</label>
                     <input type="text"  name="username" class="form-control" id="cpf" maxlength="11" placeholder="Digite seu CPF"  >

@@ -75,7 +75,7 @@ public class TicketController {
 	
 	/// mudar para metodo post futuramente com cofirmação//
 	
-	 @GetMapping("/deleteTicket-{id}")
+	 @PostMapping("/deleteTicket-{id}")
 		public String Deletar(@PathVariable("id") int id ) {
 		ticketRepository.deleteById(id);
 		return"redirect:/listarTickets";

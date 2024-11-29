@@ -78,7 +78,30 @@
 
                 </form>
              <button  th:if="${ticket.situacao == true}"  class="btn btn-primary m-2 justify-content-end" >    <a  th:href="@{/listarTickets}" style="text-decoration: none;color: aliceblue;"   >voltar</a></button>
-	         <button  th:if="${userLogado.permissao == '1'}" class="btn btn-danger   "><a style="text-decoration: none;color: aliceblue;" th:href="@{/deleteTicket-{id}(id=${ticket.id})}"  onclick="confirm('Você tem certeza que deseja deletar ?')"  >Deletar</a></button>          
+	        <div th:if="${userLogado.permissao == '1'}" >
+				
+				
+
+
+
+<!-- Botão para abrir o modal -->
+<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDeletar">Excluir Item</button>
+
+
+
+<!-- Modal -->
+
+
+
+				
+							
+						
+							
+							</div>
+	        
+	       <!--  <button  th:if="${userLogado.permissao == '1'}" class="btn btn-danger   ">
+			   <a style="text-decoration: none;color: aliceblue;" th:href="@{/deleteTicket-{id}(id=${ticket.id})}"  onclick="confirm('Você tem certeza que deseja deletar ?')"  >Deletar</a>
+			   </button>    -->      
  
               </div>
             </div>
@@ -89,6 +112,35 @@
           <p class="mb-0 fs-4">All rights reserved &copy;</p>
         </div>
       </div>
+      
+      
+      <div class="modal fade" id="modalDeletar" tabindex="-1" aria-labelledby="modalDeletarLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalDeletarLabel">Excluir Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> <!-- Botão de Fechar -->
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    <strong>AVISO:</strong> CUIDADO, ESTA AÇÃO NÃO PODERÁ SER DESFEITA.
+                </div>
+
+                <p id="modalItemDeletar">Você está prestes a excluir o item:</p>
+                <p><strong>ID:    </strong><span th:text="${ticket?.id}"></span></p>
+                <p><strong>Nome: </strong><span th:text="${ticket?.nome}"></span></p>
+
+                <form id="formDeletarItem" method="POST" th:action="@{/deleteTicket-{id}(id=${ticket.id})}">
+                    <input type="hidden" id="campoItemId" name="itemId">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button> <!-- Fechar -->
+                        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
       
       
       <!-- fim do container fluir -->
