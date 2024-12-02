@@ -3,26 +3,27 @@ package com.Ticket.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.SecurityExpressionOperations;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
-import org.springframework.security.web.access.expression.WebSecurityExpressionRoot;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.Ticket.model.UsuarioModel;
+import com.Ticket.repository.UsuarioRepository;
 
 
 
 @Configuration
 @EnableWebSecurity
 public class SecSecurityConfig {
+	
+	@Autowired
+	UsuarioRepository usuarioRepository;
+	
+	
 	
 	@Autowired	
 	private UserDetailServiceImpl userDetailServiceImpl;
@@ -46,20 +47,46 @@ public class SecSecurityConfig {
 	            .anyRequest().authenticated()
 	           )
 	            .formLogin(formLogin -> formLogin	 
-	            		.successHandler((request, response, authentication) -> {
-	                        
-	            			if (authentication.getAuthorities().stream()
-	                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("administrador"))) {
-	                            
-	            				response.sendRedirect("/listarUsuarios");
-	                        } else if (authentication.getAuthorities().stream()
-	                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("usuario"))) {
-	                            
-	                        	response.sendRedirect("/listarTickets");
-	                        }
-	                    })
 	            		
-	                  //  .defaultSuccessUrl("/listarTickets", true)
+	            		
+	            		.successHandler((request, response, authentication) -> {
+
+	            		    // Obtém o usuário autenticado
+	            		    UsuarioModel usuario =  usuarioRepository.findByCpf(authentication.getName());
+
+	            		    // Verificando se é o primeiro login
+	            		    if (usuario.isPrimeiro_login()) {  // Modificado para acessar a variável 'primeiro_login'
+	            		        response.sendRedirect("/teste");  // Redireciona para a página de mudança de senha
+	            		    } else if (authentication.getAuthorities().stream()
+	            		            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("administrador"))) {
+
+	            		        // Redireciona para a página de listagem de usuários caso seja um administrador
+	            		        response.sendRedirect("/listarUsuarios");
+
+	            		    } else if (authentication.getAuthorities().stream()
+	            		            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("usuario"))) {
+
+	            		        // Redireciona para a página de listagem de tickets caso seja um usuário comum
+	            		        response.sendRedirect("/listarTickets");
+	            		    }
+	            		})
+	            		
+	            		
+	            		
+//	            		.successHandler((request, response, authentication) -> {
+//	                        
+//	            			if (authentication.getAuthorities().stream()
+//	                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("administrador"))) {
+//	                            
+//	            				response.sendRedirect("/listarUsuarios");
+//	                        } else if (authentication.getAuthorities().stream()
+//	                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("usuario"))) {
+//	                            
+//	                        	response.sendRedirect("/listarTickets");
+//	                        }
+//	                    })
+//	            		
+	                 
 	                    .loginPage("/login")
 	                    .failureUrl("/login?error=true")
 	                    .permitAll()

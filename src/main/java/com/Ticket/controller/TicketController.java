@@ -44,6 +44,13 @@ public class TicketController {
 	
 	
 
+	@GetMapping({"/teste"})
+	public String teste() {
+	return "redefinirSenha";
+	}
+	
+	
+	
 	
 	
 	@GetMapping({"/"})
@@ -139,11 +146,6 @@ public class TicketController {
 	}
 	
 
-	@GetMapping({"/teste"})
-	public String teste() {
-	return "teste";
-	}
-	
 	
 	 @GetMapping("visualizar-{id}")
 	  public String busca(@PathVariable int id, Model model){

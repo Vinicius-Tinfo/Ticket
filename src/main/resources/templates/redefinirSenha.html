@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redefinir a Senha</title>
+  <link rel="shortcut icon" type="image/png" href="./assets/images/logos/seodashlogo.png" />
+  <link rel="stylesheet" href="../../node_modules/simplebar/dist/simplebar.min.css">
+  <link rel="stylesheet" href="./assets/css/styles.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Estilo Adicional -->
+  <style>
+    .form-container {
+        position: relative;
+    }
+    .list-unstyled {
+        padding-left: 0;
+    }
+    .valid {
+        color: green;
+    }
+    .invalid {
+        color: red;
+    }
+    .icon-container {
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        text-align: center;
+        margin-left: 10px;
+        line-height: 20px;
+    }
+    .icon-container i {
+        font-size: 1.25rem;
+    }
+    li {
+        display: flex;
+        align-items: center;
+    }
+  </style>
+
+</head>
+
+<body>
+    <!-- Sidebar Start -->
+
+<!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    
+    
+    
+
+
+    <div class="body-wrapper">
+		
+      <!--  Header Start -->
+
+      <header class="app-header">
+		  <aside class="position-fixed top-0 start-0 z-index-10">
+    <img src="./assets/images/logos/logoticket.svg" class="img-thumbnail text-start" alt="Logo do projeto"  style="margin-right: 20px;" />
+</aside>
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <ul class="navbar-nav">
+			 
+            <li class="nav-item d-block d-xl-none">
+             
+            </li>
+            <li class="nav-item">
+              
+                <div class="notification bg-primary rounded-circle"></div>
+              </a>
+            </li>
+          </ul>
+          <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+           
+              <li class="nav-item dropdown">
+                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <img src="./assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+                </a>
+                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up text-center " aria-labelledby="drop2">
+                  <div class="message-body d-flex justify-content-center  ">
+               		<button type="button" class="btn btn-outline-danger mx-3 mt-2  btn-block w-100" data-bs-toggle="modal" data-bs-target="#modalExemplo">Sair</button>
+
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!--  model do botão sair começa aqui -->
+      
+      
+ <div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirmar Logout</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Tem certeza de que deseja sair?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <a th:href="@{/logout}" class="btn btn-danger ">Sair</a>
+      </div>
+    </div>
+  </div>
+</div>
+      
+
+
+      <!-- Header End -->
+
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Nova Senha</h5>
+
+            <!-- Formulário de Senha -->
+            <div class="card">
+              <div class="card-body">
+                <!-- Mensagem de erro, inicialmente oculta -->
+                <div id="error-message" class="alert alert-danger d-none" role="alert">
+                  As senhas não são iguais. O formulário não foi enviado.
+                </div>
+
+                <form id="formulario" action="#" method="POST">
+                  <div class="mb-3">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input id="senha" type="password" class="form-control" placeholder="Digite sua senha">
+                    <ul id="senha-requisitos" class="list-unstyled mt-2">
+                      <li id="requisito1" class="invalid">Pelo menos um caractere especial <span id="icon1" class="icon-container"><i class="bi bi-x-circle invalid-icon"></i></span></li>
+                      <li id="requisito2" class="invalid">Pelo menos 1 número <span id="icon2" class="icon-container"><i class="bi bi-x-circle invalid-icon"></i></span></li>
+                      <li id="requisito3" class="invalid">No mínimo 6 caracteres <span id="icon3" class="icon-container"><i class="bi bi-x-circle invalid-icon"></i></span></li>
+                      <li id="requisito4" class="invalid">Pelo menos 1 maiúsculo <span id="icon4" class="icon-container"><i class="bi bi-x-circle invalid-icon"></i></span></li>
+                      <li id="requisito5" class="invalid">Pelo menos 1 minúsculo <span id="icon5" class="icon-container"><i class="bi bi-x-circle invalid-icon"></i></span></li>
+                    </ul>
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirmaSenha" class="form-label">Confirmar Senha</label>
+                    <input id="confirmaSenha" type="password" class="form-control" placeholder="Confirme sua senha">
+                  </div>
+                  <p id="texto"></p>
+
+                  <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="./assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="./assets/js/sidebarmenu.js"></script>
+  <script src="./assets/js/app.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+
+  <script>
+    var form = document.getElementById('formulario');
+    var senha = document.getElementById('senha');
+    var confirmaSenha = document.getElementById('confirmaSenha');
+    var texto = document.getElementById('texto');
+    var errorMessage = document.getElementById('error-message');
+    var requisitos = document.getElementById('senha-requisitos').children;
+    var icons = {
+      1: document.getElementById('icon1'),
+      2: document.getElementById('icon2'),
+      3: document.getElementById('icon3'),
+      4: document.getElementById('icon4'),
+      5: document.getElementById('icon5')
+    };
+
+    var regexEspecial = /[!@#$%^&*(),.?":{}|<>]/;
+    var regexNumero = /\d/;
+    var regexMaiuscula = /[A-Z]/;
+    var regexMinuscula = /[a-z]/;
+
+    function compararSenhas() {
+      if (senha.value !== '' || confirmaSenha.value !== '') {
+        if (senha.value === confirmaSenha.value) {
+          texto.innerHTML = "As senhas são iguais";
+          senha.classList.add('is-valid');
+          confirmaSenha.classList.add('is-valid');
+          senha.classList.remove('is-invalid');
+          confirmaSenha.classList.remove('is-invalid');
+        } else {
+          texto.innerHTML = "As senhas não são iguais";
+          senha.classList.add('is-invalid');
+          confirmaSenha.classList.add('is-invalid');
+          senha.classList.remove('is-valid');
+          confirmaSenha.classList.remove('is-valid');
+        }
+      } else {
+        texto.innerHTML = '';
+        senha.classList.remove('is-invalid', 'is-valid');
+        confirmaSenha.classList.remove('is-invalid', 'is-valid');
+      }
+    }
+
+    function validarSenha() {
+      var senhaValida = true;
+
+      if (senha.value.match(regexEspecial)) {
+        requisitos[0].classList.remove('invalid');
+        requisitos[0].classList.add('valid');
+        icons[1].innerHTML = '<i class="bi bi-check-circle valid-icon"></i>';
+      } else {
+        requisitos[0].classList.remove('valid');
+        requisitos[0].classList.add('invalid');
+        icons[1].innerHTML = '<i class="bi bi-x-circle invalid-icon"></i>';
+        senhaValida = false;
+      }
+
+      if (senha.value.match(regexNumero)) {
+        requisitos[1].classList.remove('invalid');
+        requisitos[1].classList.add('valid');
+        icons[2].innerHTML = '<i class="bi bi-check-circle valid-icon"></i>';
+      } else {
+        requisitos[1].classList.remove('valid');
+        requisitos[1].classList.add('invalid');
+        icons[2].innerHTML = '<i class="bi bi-x-circle invalid-icon"></i>';
+        senhaValida = false;
+      }
+
+      if (senha.value.length >= 6) {
+        requisitos[2].classList.remove('invalid');
+        requisitos[2].classList.add('valid');
+        icons[3].innerHTML = '<i class="bi bi-check-circle valid-icon"></i>';
+      } else {
+        requisitos[2].classList.remove('valid');
+        requisitos[2].classList.add('invalid');
+        icons[3].innerHTML = '<i class="bi bi-x-circle invalid-icon"></i>';
+        senhaValida = false;
+      }
+
+      if (senha.value.match(regexMaiuscula)) {
+        requisitos[3].classList.remove('invalid');
+        requisitos[3].classList.add('valid');
+        icons[4].innerHTML = '<i class="bi bi-check-circle valid-icon"></i>';
+      } else {
+        requisitos[3].classList.remove('valid');
+        requisitos[3].classList.add('invalid');
+        icons[4].innerHTML = '<i class="bi bi-x-circle invalid-icon"></i>';
+        senhaValida = false;
+      }
+
+      if (senha.value.match(regexMinuscula)) {
+        requisitos[4].classList.remove('invalid');
+        requisitos[4].classList.add('valid');
+        icons[5].innerHTML = '<i class="bi bi-check-circle valid-icon"></i>';
+      } else {
+        requisitos[4].classList.remove('valid');
+        requisitos[4].classList.add('invalid');
+        icons[5].innerHTML = '<i class="bi bi-x-circle invalid-icon"></i>';
+        senhaValida = false;
+      }
+
+      return senhaValida;
+    }
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      errorMessage.classList.add('d-none');
+      if (senha.value === confirmaSenha.value && validarSenha()) {
+        setTimeout(function() {
+          form.submit();
+        }, 1000);
+      } else {
+        if (senha.value !== confirmaSenha.value) {
+          errorMessage.classList.remove('d-none');
+          errorMessage.textContent = "As senhas não são iguais. O formulário não foi enviado.";
+        } else if (!validarSenha()) {
+          errorMessage.classList.remove('d-none');
+          errorMessage.textContent = "A senha não atende aos requisitos.";
+        }
+      }
+    });
+
+    confirmaSenha.addEventListener('input', compararSenhas);
+    senha.addEventListener('input', function() {
+      compararSenhas();
+      validarSenha();
+    });
+
+  </script>
+</body>
+
+</html>

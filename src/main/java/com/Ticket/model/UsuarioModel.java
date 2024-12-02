@@ -49,7 +49,21 @@ public class UsuarioModel implements Serializable,UserDetails {
 	
 	@Column(name = "data_nascimento") 
 	private Date data_nascimento;
+	
+	
+	@Column(name = "primeiro_login")
+	private boolean primeiro_login;
+	
 		
+	
+	public boolean isPrimeiro_login() {
+		return primeiro_login;
+	}
+	public void setPrimeiro_login(boolean primeiro_login) {
+		this.primeiro_login = primeiro_login;
+	}
+	
+	
 	
 	public Date getData_nascimento() {
 		return data_nascimento;
