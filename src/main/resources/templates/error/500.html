@@ -1,0 +1,21 @@
+
+	 <div th:replace="componentes/topo"></div>
+
+
+<!-- So mudar aqui dentro do container -->
+      <div class="container-fluid">
+		  
+		  <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-4">Erro 500 !!</h5>
+            <p class="mb-0"  th:text="${message}" ></p>
+          </div>
+        </div>
+   
+   
+	  </div>
+      
+      <!-- fim do container fluir -->
+      	 <div th:replace="componentes/inferior"></div>
+
+   
