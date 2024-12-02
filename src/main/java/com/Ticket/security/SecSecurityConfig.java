@@ -45,8 +45,21 @@ public class SecSecurityConfig {
 	
 	            .anyRequest().authenticated()
 	           )
-	            .formLogin(formLogin -> formLogin	            		
-	                    .defaultSuccessUrl("/listarTickets", true)
+	            .formLogin(formLogin -> formLogin	 
+	            		.successHandler((request, response, authentication) -> {
+	                        
+	            			if (authentication.getAuthorities().stream()
+	                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("administrador"))) {
+	                            
+	            				response.sendRedirect("/listarUsuarios");
+	                        } else if (authentication.getAuthorities().stream()
+	                                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("usuario"))) {
+	                            
+	                        	response.sendRedirect("/listarTickets");
+	                        }
+	                    })
+	            		
+	                  //  .defaultSuccessUrl("/listarTickets", true)
 	                    .loginPage("/login")
 	                    .failureUrl("/login?error=true")
 	                    .permitAll()
