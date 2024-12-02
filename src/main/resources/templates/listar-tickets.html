@@ -5,7 +5,20 @@
 
 <!-- So mudar aqui dentro do container -->
       <div class="container-fluid">
- 
+   
+   
+   
+     
+   
+   
+   
+ <div sec:authorize="hasAuthority('administrador')">
+        <h2>Área Administrativa</h2>
+        <p>Somente administradores têm acesso a esta área.</p>
+    </div>
+
+
+
           <div class="col-lg-8">
           <div class="card">
             <div class="card-body">

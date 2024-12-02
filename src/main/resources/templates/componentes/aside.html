@@ -45,7 +45,7 @@
             
         
 
-            <li class="sidebar-item">
+            <li class="sidebar-item"  sec:authorize="hasAuthority('administrador')"   >
               <a class="sidebar-link" th:href="@{/listarUsuarios}" aria-expanded="false">
 				
                 <span>

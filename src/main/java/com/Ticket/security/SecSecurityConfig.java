@@ -3,12 +3,19 @@ package com.Ticket.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.expression.SecurityExpressionOperations;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+import org.springframework.security.web.access.expression.WebSecurityExpressionRoot;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
@@ -30,13 +37,11 @@ public class SecSecurityConfig {
 	 
 	    http.authorizeHttpRequests(
 	            auth -> auth.requestMatchers("/signin", "/signup","/login").permitAll()
-	            .requestMatchers("/").permitAll()
 	            .requestMatchers("/teste").hasAnyAuthority("administrador")		 
-	            .requestMatchers("/logar","/cadastrar-usuario","/listarUsuarios").hasAnyAuthority("administrador")		         
-	            .requestMatchers("/admin/**").hasAnyAuthority("administrador")
-	            .requestMatchers("/Formulario","/listarTickets").hasAnyAuthority("administrador","usuario")
+	            .requestMatchers("/cadastrar-usuario","/listarUsuarios").hasAnyAuthority("administrador")		         
+	            .requestMatchers("/logar","/Formulario","/listarTickets").hasAnyAuthority("administrador","usuario")
 	            .requestMatchers("/assets/**").permitAll()
-	            .requestMatchers("/Formulario/save").permitAll()
+	            .requestMatchers("/","/Formulario/save").permitAll()
 	
 	            .anyRequest().authenticated()
 	           )
@@ -56,6 +61,8 @@ public class SecSecurityConfig {
 	    
 	    return http.build();
 	}
+	
+
 	
 	
 	
