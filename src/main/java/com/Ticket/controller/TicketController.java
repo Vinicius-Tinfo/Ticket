@@ -28,6 +28,7 @@ import com.Ticket.model.TicketModel;
 import com.Ticket.model.UsuarioModel;
 import com.Ticket.repository.PermissaoRepository;
 import com.Ticket.repository.TicketRepository;
+import com.Ticket.repository.UsuarioPermissaoRepository;
 import com.Ticket.repository.UsuarioRepository;
 import com.Ticket.services.UsuarioService;
 
@@ -42,6 +43,10 @@ public class TicketController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	
+	@Autowired
+	private UsuarioPermissaoRepository usuarioPermissaoRepository;
+	
 	@Autowired
 	private TicketRepository ticketRepository;
 	
@@ -55,6 +60,45 @@ public class TicketController {
 	public String PrimeiroLogin() {
 		return "redefinirSenha";
 	}
+	
+	
+	
+	  @PostMapping("/apagarUsuario")
+	    public String apagarUsuario(@RequestParam Long funcionarioId,
+	                                 @RequestParam String senha,
+	                                 RedirectAttributes redirectAttributes,
+	                                 Authentication authentication) {
+
+		  UsuarioModel adm =  usuarioRepository.findByCpf(authentication.getName());
+	       
+
+			  BCryptPasswordEncoder b = new BCryptPasswordEncoder();  			
+
+	        System.out.println(senha);
+	        if (!b.matches(senha, adm.getPassword())) {
+	            redirectAttributes.addFlashAttribute("mensagem", "A senha do administrador está incorreta.");
+	            return "redirect:/listarUsuarios"; // Página de erro (senha incorreta)
+	        }else {
+	        	Optional<UsuarioModel> usuarioOptional = usuarioRepository.findById(funcionarioId);
+	            
+	            if (usuarioOptional.isPresent()) {
+	                UsuarioModel usuarioToUpdate = usuarioOptional.get();  
+
+	        	long id = usuarioToUpdate.getId_usuario();
+	        	
+	        	usuarioPermissaoRepository.deleteById(id);
+	        	usuarioRepository.deleteById(id);
+		            
+				redirectAttributes.addFlashAttribute("mensagem", "O Usuario foi excluido");
+		            return "redirect:/listarUsuarios";
+	        }
+
+	        return "redirect:/listarUsuarios"; // Página de resultado (sucesso ou erro)
+	    }
+	}
+	
+	
+	
 	
 	
 	  @PostMapping("/resertarSenha")
@@ -87,13 +131,9 @@ public class TicketController {
 				usuarioToUpdate.setPrimeiro_login(true);
 				usuarioRepository.save(usuarioToUpdate);
 		            
-		            
-		            
 				redirectAttributes.addFlashAttribute("mensagem", "A senha do usuario foi redefinida com sucesso.");
 		            return "redirect:/listarUsuarios";
 	        }
-
-	  
 
 	        return "redirect:/listarUsuarios"; // Página de resultado (sucesso ou erro)
 	    }

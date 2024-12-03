@@ -111,7 +111,7 @@
                     <strong>AVISO:</strong> CUIDADO, ESTA AÇÃO NÃO PODERÁ SER DESFEITA.
                 </div>
 
-                <form id="formExcluirFuncionario" method="POST" action="/excluir-funcionario">
+                <form id="formExcluirFuncionario" method="POST" th:action="@{/apagarUsuario}">
                     <p id="modalFuncionarioExcluir">Você está prestes a excluir o funcionário:</p>
                     <p><strong>ID: </strong><span id="modalFuncionarioIdExcluir"></span></p>
                     <p><strong>Nome: </strong><span id="modalFuncionarioNomeExcluir"></span></p>
@@ -119,7 +119,7 @@
 
                     <div class="form-group">
                         <label for="senhaExcluir">Digite sua senha para confirmar:</label>
-                        <input type="password" class="form-control" id="senhaExcluir" name="senha" placeholder="Senha" required>
+                        <input type="text" class="form-control" id="senhaExcluir" name="senha" placeholder="Senha" required>
                     </div>
 
                     <input type="hidden" id="campoFuncionarioIdExcluir" name="funcionarioId">
