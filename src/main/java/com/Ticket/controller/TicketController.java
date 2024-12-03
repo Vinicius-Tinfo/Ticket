@@ -1,6 +1,7 @@
 package com.Ticket.controller;
 
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -8,12 +9,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,6 +25,10 @@ import com.Ticket.repository.PermissaoRepository;
 import com.Ticket.repository.TicketRepository;
 import com.Ticket.repository.UsuarioRepository;
 import com.Ticket.services.UsuarioService;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class TicketController {
@@ -41,13 +46,25 @@ public class TicketController {
 	@Autowired
     private UsuarioService usuarioService; 
 	
-	
-	
-
-	@GetMapping({"/teste"})
-	public String teste() {
-	return "redefinirSenha";
+	@PostMapping({"/primeiroLogin"})
+	public String PrimeiroLogin() {
+		return "redefinirSenha";
 	}
+	
+	@PostMapping("/redefinirSenha")
+	public String resetPassword(@RequestParam String senha, 
+            @RequestParam String confirmaSenha, 
+            Authentication authentication,
+            RedirectAttributes redirectAttributes,
+            HttpServletRequest request, 
+            HttpServletResponse response) throws ServletException, IOException {
+
+usuarioService.MudarSenha(senha, confirmaSenha, authentication, redirectAttributes, request, response);
+
+return null;
+}
+	
+	
 	
 	
 	

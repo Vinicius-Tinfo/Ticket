@@ -3,6 +3,7 @@ package com.Ticket.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,6 +14,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.Ticket.model.UsuarioModel;
 import com.Ticket.repository.UsuarioRepository;
+
+import jakarta.servlet.RequestDispatcher;
 
 
 
@@ -40,7 +43,7 @@ public class SecSecurityConfig {
 	            auth -> auth.requestMatchers("/signin", "/signup","/login").permitAll()
 	            .requestMatchers("/teste").hasAnyAuthority("administrador")		 
 	            .requestMatchers("/cadastrar-usuario","/listarUsuarios").hasAnyAuthority("administrador")		         
-	            .requestMatchers("/logar","/Formulario","/listarTickets").hasAnyAuthority("administrador","usuario")
+	            .requestMatchers("/logar","/Formulario","/listarTickets","/primeiroLogin").hasAnyAuthority("administrador","usuario")
 	            .requestMatchers("/assets/**").permitAll()
 	            .requestMatchers("/","/Formulario/save").permitAll()
 	
@@ -51,22 +54,24 @@ public class SecSecurityConfig {
 	            		
 	            		.successHandler((request, response, authentication) -> {
 
-	            		    // Obtém o usuário autenticado
+	            		  
 	            		    UsuarioModel usuario =  usuarioRepository.findByCpf(authentication.getName());
 
-	            		    // Verificando se é o primeiro login
-	            		    if (usuario.isPrimeiro_login()) {  // Modificado para acessar a variável 'primeiro_login'
-	            		        response.sendRedirect("/teste");  // Redireciona para a página de mudança de senha
+	            		    
+	            		    if (usuario.isPrimeiro_login()) {  
+	            		        //response.sendRedirect("/primeiroLogin"); 
+	            		        
+	            		        RequestDispatcher dispatcher = request.getRequestDispatcher("/primeiroLogin");         		       	            		       
+	            		        dispatcher.forward(request, response);             		        
+	            		        
 	            		    } else if (authentication.getAuthorities().stream()
 	            		            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("administrador"))) {
 
-	            		        // Redireciona para a página de listagem de usuários caso seja um administrador
 	            		        response.sendRedirect("/listarUsuarios");
 
 	            		    } else if (authentication.getAuthorities().stream()
 	            		            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("usuario"))) {
 
-	            		        // Redireciona para a página de listagem de tickets caso seja um usuário comum
 	            		        response.sendRedirect("/listarTickets");
 	            		    }
 	            		})
@@ -103,6 +108,23 @@ public class SecSecurityConfig {
 	}
 	
 
+	
+	
+	 @Bean
+	 public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+	         AuthenticationManagerBuilder authenticationManagerBuilder =
+	             http.getSharedObject(AuthenticationManagerBuilder.class);
+	         
+	         authenticationManagerBuilder
+	         .userDetailsService(userDetailServiceImpl)  // Configura o UserDetailsService
+	         .passwordEncoder(passwordEncoder());      // Configura o PasswordEncoder
+
+	         
+	  return authenticationManagerBuilder.build();}
+	
+	
+	
+	
 	
 	
 	

@@ -3,10 +3,14 @@ package com.Ticket.services;
 
 
 
-import java.text.DateFormat;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -16,9 +20,19 @@ import com.Ticket.model.UsuarioPermissao;
 import com.Ticket.repository.UsuarioPermissaoRepository;
 import com.Ticket.repository.UsuarioRepository;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 @Service
 public class UsuarioService{
 
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	
+	
 		@Autowired
 		private UsuarioRepository usuarioRepository;
 
@@ -38,7 +52,7 @@ public class UsuarioService{
 		        String senhaCriptografada = b.encode(dataFormatada);
 				System.out.println(senhaCriptografada);
 				usuario.setSenha(senhaCriptografada);  
-			  
+				usuario.setPrimeiro_login(true);
 			  
 		        if (!validarCPF(usuario.getCpf())) {
 		            redirectAttributes.addFlashAttribute("mensagem", "CPF inválido");
@@ -121,7 +135,63 @@ public class UsuarioService{
 		  
 		  
 		  
+		  public void MudarSenha(String senha, String confirmaSenha, Authentication authentication, RedirectAttributes redirectAttributes, HttpServletRequest request, 
+                  HttpServletResponse response) throws IOException,ServletException {
+
+BCryptPasswordEncoder b = new BCryptPasswordEncoder();
+
+if (!senha.equals(confirmaSenha)) {
+  redirectAttributes.addFlashAttribute("mensagem", "As senhas não coincidem.");
+  RequestDispatcher dispatcher = request.getRequestDispatcher("/redefinirSenha");
+  dispatcher.forward(request, response);
+  return;
+}
+
+if (senha.length() < 6) {
+  redirectAttributes.addFlashAttribute("mensagem", "A senha precisa ter pelo menos 6 caracteres.");
+  RequestDispatcher dispatcher = request.getRequestDispatcher("/redefinirSenha");
+  dispatcher.forward(request, response);
+  return;
+}
+
+String senhaCriptografada = b.encode(senha);
+UsuarioModel usuario =  usuarioRepository.findByCpf(authentication.getName());
+
+usuario.setSenha(senhaCriptografada);
+usuario.setPrimeiro_login(false);
+usuarioRepository.save(usuario);
+
+// Criar um novo token de autenticação com a senha em texto plano
+UsernamePasswordAuthenticationToken newAuthToken = new UsernamePasswordAuthenticationToken(
+  usuario.getUsername(),
+  senha,  // Passa a senha em texto plano
+  authentication.getAuthorities()
+);
+
+Authentication newAuthentication = authenticationManager.authenticate(newAuthToken);
+SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+
+// Adicionar mensagem de sucesso
+if (authentication.getAuthorities().stream()
+      .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("administrador"))) {
+  redirectAttributes.addFlashAttribute("mensagem", "Senha redefinida com sucesso.");
+  response.sendRedirect("/listarUsuarios");
+} else if (authentication.getAuthorities().stream()
+      .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("usuario"))) {
+  redirectAttributes.addFlashAttribute("mensagem", "Senha redefinida com sucesso.");
+  response.sendRedirect("/listarTickets");
+}
+}
+
 		  
+		  
+		  
+		
+		 
+		  
+		  
+		  
+		  }
 		  
 		
 // metodo mais simples para salvar mas no casos ele somente salva nao redireciona ///
@@ -143,4 +213,4 @@ public class UsuarioService{
 //
 //		   }
 	
-}
+

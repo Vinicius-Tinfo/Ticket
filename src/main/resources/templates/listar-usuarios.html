@@ -2,8 +2,12 @@
 
 	 <div th:replace="componentes/topo"></div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- So mudar aqui dentro do container -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
       <div class="container-fluid">
  
           <div class="col-lg-8">
@@ -28,7 +32,7 @@
                       <th scope="col" class="text-center" >Nome</th>
                       <th scope="col" class="text-center">Cpf</th>
 					  <th scope="col" class="text-center">Permissão</th>
-                      <th scope="col" class="text-center">Ações</th>
+                      <th scope="col" class="text-center"  colspan="2"  >Ações</th>
                     </tr>
                   </thead>
                   <tbody class="table-group-divider">
@@ -41,8 +45,28 @@
                         <span th:each="permissao : ${usuarios.permissoes}" th:text="${permissao.nome}"></span>
                   <!--  <span th:if="${#lists.isEmpty(usuarios.permissoes)}">Nenhuma permissão atribuída</span> -->
             		</td>
-       				  <td class="text-center fw-medium" >
-                    <button  class="btn btn-warning"><a style="text-decoration: none;color: aliceblue;" th:href="@{#}">Visualizar</a></button> 
+       				  <td class="text-center fw-medium" colspan="2"  >
+					
+                    <button class="btn btn-warning"><i class="bi bi-key"></i>  Redefinir</button>
+                    <button type="button" class="btn btn-danger ml-2" 
+                    data-toggle="modal" 
+                    data-target="#modalExcluir"
+        			th:data-id="${usuarios.id_usuario}"
+        			th:data-cpf="${usuarios.cpf}"
+        			th:data-nome="${usuarios.nome}"
+        			th:data-tipo="excluir" >
+        			<i class="bi bi-trash"></i>
+    				Excluir
+					</button>
+
+
+             		
+                    
+                    
+                    
+               
+                    
+                    <!--<button  class="btn btn-warning"><a style="text-decoration: none;color: aliceblue;" th:href="@{#}">Visualizar</a></button> -->
                   	 </td>
                     </tr>
                   </tbody>
@@ -58,6 +82,70 @@
         
         
       </div>
+      
+      <div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="modalExcluirLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalExcluirLabel">Excluir Funcionário</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+                   
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    <strong>AVISO:</strong> CUIDADO, ESTA AÇÃO NÃO PODERÁ SER DESFEITA.
+                </div>
+
+                <form id="formExcluirFuncionario" method="POST" action="/excluir-funcionario">
+                    <p id="modalFuncionarioExcluir">Você está prestes a excluir o funcionário:</p>
+                    <p><strong>ID: </strong><span id="modalFuncionarioIdExcluir"></span></p>
+                    <p><strong>Nome: </strong><span id="modalFuncionarioNomeExcluir"></span></p>
+                    <p><strong>CPF: </strong><span id="modalFuncionarioCpfExcluir"></span></p>
+
+                    <div class="form-group">
+                        <label for="senhaExcluir">Digite sua senha para confirmar:</label>
+                        <input type="password" class="form-control" id="senhaExcluir" name="senha" placeholder="Senha" required>
+                    </div>
+
+                    <input type="hidden" id="campoFuncionarioIdExcluir" name="funcionarioId">
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="submit" class="btn btn-danger">Confirmar Exclusão</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+      
+      
+<script>
+    // Adiciona o ouvinte de evento para o modal
+    $('#modalExcluir').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botão que acionou o modal
+        var id = button.data('id'); // Pega o ID do botão
+        var cpf = button.data('cpf'); // Pega o CPF do botão
+        var nome = button.data('nome'); // Pega o Nome do botão
+        var tipo = button.data('tipo'); // Pega o tipo de ação (excluir)
+
+        // Preenche os campos do modal com os dados
+        if (tipo === 'excluir') {
+            $('#modalFuncionarioIdExcluir').text(id);
+            $('#modalFuncionarioNomeExcluir').text(nome);
+            $('#modalFuncionarioCpfExcluir').text(cpf);
+            $('#campoFuncionarioIdExcluir').val(id);
+        }
+    });
+</script>
+      
+      
+      
+       
+
+      
+      
       
       
       <!-- fim do container fluir -->

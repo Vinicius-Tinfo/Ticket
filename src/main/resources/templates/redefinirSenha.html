@@ -132,10 +132,10 @@
                   As senhas não são iguais. O formulário não foi enviado.
                 </div>
 
-                <form id="formulario" action="#" method="POST">
+                <form id="formulario" th:action="@{/redefinirSenha}" method="POST">
                   <div class="mb-3">
                     <label for="senha" class="form-label">Senha</label>
-                    <input id="senha" type="password" class="form-control" placeholder="Digite sua senha">
+                    <input  type="password" class="form-control" id="senha"  name="senha" placeholder="Digite sua nova senha">
                     <ul id="senha-requisitos" class="list-unstyled mt-2">
                       <li id="requisito1" class="invalid">Pelo menos um caractere especial <span id="icon1" class="icon-container"><i class="bi bi-x-circle invalid-icon"></i></span></li>
                       <li id="requisito2" class="invalid">Pelo menos 1 número <span id="icon2" class="icon-container"><i class="bi bi-x-circle invalid-icon"></i></span></li>
@@ -146,7 +146,7 @@
                   </div>
                   <div class="mb-3">
                     <label for="confirmaSenha" class="form-label">Confirmar Senha</label>
-                    <input id="confirmaSenha" type="password" class="form-control" placeholder="Confirme sua senha">
+                    <input  type="password" class="form-control" id="confirmaSenha" name="confirmaSenha" placeholder="Confirme sua senha">
                   </div>
                   <p id="texto"></p>
 
