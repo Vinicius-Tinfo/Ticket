@@ -2,6 +2,7 @@ package com.Ticket.controller;
 
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +55,54 @@ public class TicketController {
 	public String PrimeiroLogin() {
 		return "redefinirSenha";
 	}
+	
+	
+	  @PostMapping("/resertarSenha")
+	    public String resertarSenha(@RequestParam Long funcionarioId,
+	                                 @RequestParam String senha,
+	                                 RedirectAttributes redirectAttributes,
+	                                 Authentication authentication) {
+
+		  UsuarioModel adm =  usuarioRepository.findByCpf(authentication.getName());
+	       
+
+			  BCryptPasswordEncoder b = new BCryptPasswordEncoder();  			
+
+	        System.out.println(senha);
+	        if (!b.matches(senha, adm.getPassword())) {
+	            redirectAttributes.addFlashAttribute("mensagem", "A senha do administrador está incorreta.");
+	            return "redirect:/listarUsuarios"; // Página de erro (senha incorreta)
+	        }else {
+	        	Optional<UsuarioModel> usuarioOptional = usuarioRepository.findById(funcionarioId);
+	            
+	            if (usuarioOptional.isPresent()) {
+	                UsuarioModel usuarioToUpdate = usuarioOptional.get();  
+
+	        	SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
+		        String dataFormatada = sdf.format(usuarioToUpdate.getData_nascimento());
+		        System.out.println(dataFormatada);
+		        String senhaCriptografada = b.encode(dataFormatada);
+				System.out.println(senhaCriptografada);
+				usuarioToUpdate.setSenha(senhaCriptografada);  
+				usuarioToUpdate.setPrimeiro_login(true);
+				usuarioRepository.save(usuarioToUpdate);
+		            
+		            
+		            
+				redirectAttributes.addFlashAttribute("mensagem", "A senha do usuario foi redefinida com sucesso.");
+		            return "redirect:/listarUsuarios";
+	        }
+
+	  
+
+	        return "redirect:/listarUsuarios"; // Página de resultado (sucesso ou erro)
+	    }
+	}
+	
+	
+	
+	
+	
 	
 	@PostMapping("/redefinirSenha")
 	public String resetPassword(@RequestParam String senha, 

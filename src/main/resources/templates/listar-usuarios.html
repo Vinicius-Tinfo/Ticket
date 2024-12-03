@@ -148,7 +148,7 @@
             <strong>AVISO:</strong> CUIDADO, ESTA AÇÃO NÃO PODERÁ SER DESFEITA.
           </div>
 
-          <form id="formRedefinirSenha" method="POST" action="/redefinir-senha">
+          <form id="formRedefinirSenha" method="POST" th:action="@{/resertarSenha}" >
             <p id="modalFuncionario">Você está prestes a redefinir a senha do funcionário:</p>
             <p><strong>ID: </strong><span id="modalFuncionarioId"></span></p>
             <p><strong>Nome: </strong><span id="modalFuncionarioNome"></span></p>
@@ -156,7 +156,7 @@
 
             <div class="form-group">
               <label for="senha">Digite sua senha para confirmar:</label>
-              <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
+              <input type="text" class="form-control" id="senha" name="senha" placeholder="Senha" required>
             </div>
 
             <input type="hidden" id="campoFuncionarioId" name="funcionarioId">
