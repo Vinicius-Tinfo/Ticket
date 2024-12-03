@@ -70,7 +70,7 @@ CREATE TABLE `ticket` (
 
 LOCK TABLES `ticket` WRITE;
 /*!40000 ALTER TABLE `ticket` DISABLE KEYS */;
-INSERT INTO `ticket` VALUES (1,'Ramon editado','ramontelles100@gmail.com','21996161680','PC','Estou com problema no SSD',1,NULL,'mudei','2024-11-06 00:00:00'),(2,'teste01','teste01@teste.com','212121','teste01','teste',1,NULL,'teste01','2024-11-06 00:00:00'),(3,'teste5','teste5@teste.com','21987654325','teste5','teste5',1,'2024-11-08 00:00:00','','2024-11-08 07:40:28'),(4,'teste6','teste6@teste.com','21987654325','teste6','teste6',1,'2024-11-08 00:00:00','resolvido teste 6','2024-11-08 07:30:15'),(5,'teste7','teste@teste.com','teste','teste7','teeste7',0,'2024-11-12 04:59:01',NULL,NULL),(6,'teste8','teste8@teste.com','21987654328','teste8','teste8',0,'2024-11-12 05:06:44',NULL,NULL),(7,'teste9','teste9@email.com','21987654329','teste9','teste9',0,'2024-11-12 05:10:59',NULL,NULL),(8,'testado1','teste@teste.com','21987654388','testet','testet',0,'2024-11-12 05:12:25',NULL,NULL),(9,'testado34','teste43@teste.com','21987654343','teste43','43',0,'2024-11-12 05:19:46',NULL,NULL);
+INSERT INTO `ticket` VALUES (1,'Ramon editado','ramontelles100@gmail.com','21996161680','PC','Estou com problema no SSD',1,NULL,'mudei','2024-11-06 00:00:00'),(2,'teste01','teste01@teste.com','212121','teste01','teste',1,NULL,'teste01','2024-11-06 00:00:00'),(3,'teste5','teste5@teste.com','21987654325','teste5','teste5',1,'2024-11-08 00:00:00','','2024-11-08 07:40:28'),(4,'teste6','teste6@teste.com','21987654325','teste6','teste6',1,'2024-11-08 00:00:00','resolvido teste 6','2024-11-08 07:30:15'),(6,'teste8','teste8@teste.com','21987654328','teste8','teste8',0,'2024-11-12 05:06:44',NULL,NULL),(7,'teste9','teste9@email.com','21987654329','teste9','teste9',0,'2024-11-12 05:10:59',NULL,NULL);
 /*!40000 ALTER TABLE `ticket` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,9 +90,10 @@ CREATE TABLE `usuario` (
   `data_expiracao` date DEFAULT NULL,
   `data_nascimento` date DEFAULT NULL,
   `permissao` int DEFAULT NULL,
+  `primeiro_login` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `cpf_UNIQUE` (`cpf`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +102,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'15715715708','administrador@gmail.com','Ramon Telles da Silva','$2a$10$5LdcO7KXll2ul69d9chNRuqNN25OosxdwU172w4LqdX4vvj7o5Zxe',NULL,'2010-10-10',1),(2,'12345678901','teste@teste','vinicius','1234',NULL,'2010-10-10',1),(3,'12345678902','teste1@teste','Novo usario','$2a$10$r3EHCZW575zUZwwLQiyd3uO8aE7OAKL5gJSqPVguNdMStYuYRsKty',NULL,'2010-10-10',1),(4,'12345678991','teste@teste','Arnaldo','$2a$10$099hV55gdc43tN.aoYC2MuePo71uz3TaOVUw19HMcpcdrSD7HJFji',NULL,'2010-10-10',2),(14,'12345678909','testeasda@teste','carlossa','$2a$10$sfMf/8FcyDlIqH7.gZFi6.0zowjfjlPLmp38WhEfarIOQRLqgqFZi',NULL,'2010-10-20',1);
+INSERT INTO `usuario` VALUES (1,'15715715708','administrador@gmail.com','Ramon Telles da Silva','$2a$10$5LdcO7KXll2ul69d9chNRuqNN25OosxdwU172w4LqdX4vvj7o5Zxe',NULL,'2010-10-10',1,0),(2,'12345678901','teste@teste','vinicius','1234',NULL,'2010-10-10',1,0),(3,'12345678902','teste1@teste','Novo usario','$2a$10$r3EHCZW575zUZwwLQiyd3uO8aE7OAKL5gJSqPVguNdMStYuYRsKty',NULL,'2010-10-10',1,0),(4,'12345678991','teste@teste','Arnaldo','$2a$10$099hV55gdc43tN.aoYC2MuePo71uz3TaOVUw19HMcpcdrSD7HJFji',NULL,'2010-10-10',2,0),(15,'12345678909','testehoje@teste.com','Teste hoje','$2a$10$NpDXigQiATYlmct15nmd4ek.Ao30DUCrJpP0ZgXYEletTcuUtydHS',NULL,'2010-10-10',1,0),(16,'00380639050','hoje@teste.com','teste hoje user','$2a$10$H3y2aOijcdxMaNasgq2pbe7VboKOzPA/QXZwyMTybt8malXtlcWMe',NULL,'2010-10-10',2,0),(17,'78182273005','josecarlos.@teste.com','jose carlos','$2a$10$EiNFTkKzFKhiRwG/X1SMceTrkxLorvpgyQRJXAx3AglJfXAINHBq.',NULL,'2010-10-10',1,0),(18,'03611107077','agorahoje@teste.com','agora hoje','$2a$10$x4MRrBIoi9ooh5hhPsT0zOzLpAIpzyZb9GaRPHce48nUOAVQmPwYW',NULL,'2010-10-10',1,0);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +129,7 @@ CREATE TABLE `usuario_permissao` (
 
 LOCK TABLES `usuario_permissao` WRITE;
 /*!40000 ALTER TABLE `usuario_permissao` DISABLE KEYS */;
-INSERT INTO `usuario_permissao` VALUES (1,1),(2,1),(3,1),(14,1),(4,2);
+INSERT INTO `usuario_permissao` VALUES (1,1),(2,1),(3,1),(15,1),(17,1),(18,1),(4,2),(16,2);
 /*!40000 ALTER TABLE `usuario_permissao` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -141,4 +142,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-17 10:31:49
+-- Dump completed on 2024-12-02 19:57:36
