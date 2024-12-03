@@ -61,6 +61,12 @@ public class TicketController {
 		return "redefinirSenha";
 	}
 	
+	@GetMapping({"/teste"})
+	public String teste() {
+	return "teste";
+	}
+	
+	
 	
 	
 	  @PostMapping("/apagarUsuario")
